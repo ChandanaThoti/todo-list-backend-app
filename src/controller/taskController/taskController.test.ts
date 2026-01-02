@@ -147,6 +147,12 @@ describe("deleteTask Controller", () => {
   });
 
   test("should return error if task not exist", async () => {
+    jest.spyOn(taskService, "deleteDbTask").mockResolvedValueOnce(false);
+    const result = await request(app).delete("/tasks").send({ id: "fvc" });
+    expect(result.text).toEqual("Task not exist");
+  });
+
+  test("should return error if task not exist", async () => {
     jest
       .spyOn(taskService, "deleteDbTask")
       .mockRejectedValueOnce("Internal Server Error");
