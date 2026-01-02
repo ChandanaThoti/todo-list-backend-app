@@ -1,6 +1,7 @@
 const mockDoc = {
   set: jest.fn(),
   get: jest.fn(),
+  update: jest.fn(),
 };
 
 const mockCollection = {
@@ -26,11 +27,13 @@ describe("addTask Service", () => {
   };
 
   test("return true if task added successfully", async () => {
+    mockDoc.set.mockResolvedValueOnce("set response");
     const result = await taskService.addDbTask(task);
     expect(result).toEqual(true);
   });
 
-  test("return true if task added successfully", async () => {
+  test("return false if invalid task", async () => {
+    mockDoc.set.mockResolvedValueOnce("set response");
     const result = await taskService.addDbTask({
       taskName: "",
       description: "test desc",
@@ -46,6 +49,32 @@ describe("viewTasks Service", () => {
   test("should return tasks if exists", async () => {
     mockCollection.get.mockResolvedValueOnce({ empty: true });
     const tasks = await taskService.viewDbTasks();
+    expect(tasks).toEqual(false);
+  });
+});
+
+describe("editTasks Service", () => {
+  test("should return true if task updated", async () => {
+    mockDoc.update.mockResolvedValueOnce("set response");
+    const tasks = await taskService.editDbTask("3", {
+      taskName: "test task",
+      description: "test desc",
+      status: "pending",
+      priority: "low",
+      deadline: "20/10/2025",
+    });
+    expect(tasks).toEqual(true);
+  });
+
+  test("should return error if invalid id", async () => {
+    mockDoc.update.mockResolvedValueOnce("set response");
+    const tasks = await taskService.editDbTask("", {
+      taskName: "test task",
+      description: "test desc",
+      status: "pending",
+      priority: "low",
+      deadline: "20/10/2025",
+    });
     expect(tasks).toEqual(false);
   });
 });
