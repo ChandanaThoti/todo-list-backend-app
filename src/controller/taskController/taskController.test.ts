@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../../server";
 import * as taskService from "../../services/taskService/taskService";
 
-describe("taskController", () => {
+describe("addTask Controller", () => {
   beforeEach(() => jest.clearAllMocks());
 
   test("should return true if task added", async () => {
@@ -35,6 +35,44 @@ describe("taskController", () => {
       .mockRejectedValueOnce("Internal Server Error");
 
     const result = await request(app).post("/tasks").send();
+    expect(result.text).toBe("Internal Server Error");
+  });
+});
+
+describe("viewTasks Controller", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("should return the tasks if exists", async () => {
+    jest.spyOn(taskService, "viewDbTasks").mockResolvedValueOnce([
+      {
+        taskName: "Finish task",
+        description: "Complete assignment",
+        status: "In Progress",
+        priority: "High",
+        deadline: "10/10/2025",
+      },
+    ]);
+    const response = await request(app).get("/tasks");
+    expect(response.text).toEqual(
+      '[{"taskName":"Finish task","description":"Complete assignment","status":"In Progress","priority":"High","deadline":"10/10/2025"}]'
+    );
+  });
+
+  test("should return error if server error", async () => {
+    jest.spyOn(taskService, "viewDbTasks").mockResolvedValueOnce(false);
+
+    const result = await request(app).get("/tasks");
+    expect(result.text).toBe("No tasks found");
+  });
+
+  test("should return error if server error", async () => {
+    jest
+      .spyOn(taskService, "viewDbTasks")
+      .mockRejectedValueOnce("Internal Server Error");
+
+    const result = await request(app).get("/tasks");
     expect(result.text).toBe("Internal Server Error");
   });
 });
