@@ -2,17 +2,23 @@
 
 ## Description
 
-Todo list backend app is a backend application to create api's for todolist using express and restful api's so that the user can add, edit, view and delete the tasks.
+Todo list backend app is a backend application to create api's for todolist using express and restful api's so that the user can add, edit, view and delete the tasks. Firebase is used to persist the data.
 
 ## Table of Contents
 
 - [Description](#description)
+- [Features](#features)
 - [Tech Stack](#tech-stack)
 - [Clone Project](#clone-project)
 - [Installation](#installation)
 - [Start Project](#start-project)
+- [Testing](#testing)
 - [Contact Information](#contact-information)
 - [Contibutions](#contributions)
+
+## Features
+
+- Add task feature allow users to add task with taskName, deescription, status, priority, deadline.
 
 ## Tech Stack
 
@@ -44,6 +50,14 @@ npm install
 
 ```bash
    npm start       # Start the application
+```
+
+## Testing
+
+> Jest and superTest used for testing.
+
+```bash
+   npm test
 ```
 
 ## Contact Information
