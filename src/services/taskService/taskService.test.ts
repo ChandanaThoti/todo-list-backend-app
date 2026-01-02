@@ -1,9 +1,11 @@
 const mockDoc = {
   set: jest.fn(),
+  get: jest.fn(),
 };
 
 const mockCollection = {
   doc: jest.fn(() => mockDoc),
+  get: jest.fn(),
 };
 
 jest.mock("../../config/firebaseConfig", () => ({
@@ -14,7 +16,7 @@ jest.mock("../../config/firebaseConfig", () => ({
 
 import * as taskService from "../../services/taskService/taskService";
 
-describe("taskService", () => {
+describe("addTask Service", () => {
   const task = {
     taskName: "test task",
     description: "test desc",
@@ -37,5 +39,13 @@ describe("taskService", () => {
       deadline: "20/10/2025",
     });
     expect(result).toBe(false);
+  });
+});
+
+describe("viewTasks Service", () => {
+  test("should return tasks if exists", async () => {
+    mockCollection.get.mockResolvedValueOnce({ empty: true });
+    const tasks = await taskService.viewDbTasks();
+    expect(tasks).toEqual(false);
   });
 });
