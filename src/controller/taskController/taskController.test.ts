@@ -82,6 +82,19 @@ describe("editTask Controller", () => {
   beforeEach(() => jest.clearAllMocks());
 
   test("should return true if task updated", async () => {
+    jest.spyOn(taskService, "editDbTask").mockResolvedValueOnce(false);
+    const result = await request(app).put("/tasks").send({
+      id: "5",
+      taskName: "Finish assignment",
+      description: "Complete the update functionality before deadline",
+      status: "In Progress",
+      priority: "High priority",
+      deadline: "Thu Nov 20 2025",
+    });
+    expect(result.text).toEqual("Task not exist");
+  });
+
+  test("should return true if task updated", async () => {
     jest.spyOn(taskService, "editDbTask").mockResolvedValueOnce(true);
     const result = await request(app).put("/tasks").send({
       id: "5",
@@ -92,6 +105,19 @@ describe("editTask Controller", () => {
       deadline: "Thu Nov 20 2025",
     });
     expect(result.text).toEqual("true");
+  });
+
+  test("should return true if task updated", async () => {
+    jest.spyOn(taskService, "editDbTask").mockResolvedValueOnce(true);
+    const result = await request(app).put("/tasks").send({
+      id: "",
+      taskName: "Finish assignment",
+      description: "Complete the update functionality before deadline",
+      status: "In Progress",
+      priority: "High priority",
+      deadline: "Thu Nov 20 2025",
+    });
+    expect(result.text).toEqual("Invalid Id");
   });
 
   test("should return error if server error", async () => {

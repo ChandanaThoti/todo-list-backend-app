@@ -39,7 +39,13 @@ export const viewTasks = async (req: Request, res: Response) => {
 export const editTask = async (req: Request, res: Response) => {
   try {
     const { id } = req.body;
+    if (!id) {
+      return res.status(400).send("Invalid Id");
+    }
     const updatedTask = await editDbTask(id, req.body);
+    if (!updatedTask) {
+      return res.status(404).send("Task not exist");
+    }
     res.status(200).send(updatedTask);
   } catch {
     res.status(500).send("Internal Server Error");
