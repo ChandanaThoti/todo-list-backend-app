@@ -19,6 +19,7 @@ Todo list backend app is a backend application to create api's for todolist usin
 ## Features
 
 - Add task feature allow users to add task with taskName, deescription, status, priority, deadline.
+- View tasks feature provide to view all the tasks present in the tasks collection in an array.
 
 ## Tech Stack
 
