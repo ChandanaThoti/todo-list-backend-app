@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addDbTask } from "../../services/taskService/taskService";
+import { addDbTask, viewDbTasks } from "../../services/taskService/taskService";
 
 export const addTask = async (req: Request, res: Response) => {
   try {
@@ -15,6 +15,18 @@ export const addTask = async (req: Request, res: Response) => {
       deadline,
     });
     res.status(201).send(task);
+  } catch {
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+export const viewTasks = async (req: Request, res: Response) => {
+  try {
+    const tasks = await viewDbTasks();
+    if (!tasks) {
+      return res.status(404).send("No tasks found");
+    }
+    res.status(200).json(tasks);
   } catch {
     res.status(500).send("Internal Server Error");
   }
