@@ -59,4 +59,20 @@ describe("viewTasks Controller", () => {
       '[{"taskName":"Finish task","description":"Complete assignment","status":"In Progress","priority":"High","deadline":"10/10/2025"}]'
     );
   });
+
+  test("should return error if server error", async () => {
+    jest.spyOn(taskService, "viewDbTasks").mockResolvedValueOnce(false);
+
+    const result = await request(app).get("/tasks");
+    expect(result.text).toBe("No tasks found");
+  });
+
+  test("should return error if server error", async () => {
+    jest
+      .spyOn(taskService, "viewDbTasks")
+      .mockRejectedValueOnce("Internal Server Error");
+
+    const result = await request(app).get("/tasks");
+    expect(result.text).toBe("Internal Server Error");
+  });
 });
