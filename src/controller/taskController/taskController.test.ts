@@ -81,7 +81,7 @@ describe("viewTasks Controller", () => {
 describe("editTask Controller", () => {
   beforeEach(() => jest.clearAllMocks());
 
-  test("should return true if task updated", async () => {
+  test("should return error if task not exist", async () => {
     jest.spyOn(taskService, "editDbTask").mockResolvedValueOnce(false);
     const result = await request(app).put("/tasks").send({
       id: "5",
@@ -107,7 +107,7 @@ describe("editTask Controller", () => {
     expect(result.text).toEqual("true");
   });
 
-  test("should return true if task updated", async () => {
+  test("should return error if invalid id", async () => {
     jest.spyOn(taskService, "editDbTask").mockResolvedValueOnce(true);
     const result = await request(app).put("/tasks").send({
       id: "",

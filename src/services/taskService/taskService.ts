@@ -9,7 +9,7 @@ export const addDbTask = async (task: Task): Promise<boolean> => {
     return false;
   }
   const docRef = taskCollection.doc();
-  const newTask = {
+  const newTask: Task = {
     id: docRef.id,
     taskName,
     description,

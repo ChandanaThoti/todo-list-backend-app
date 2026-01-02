@@ -46,7 +46,7 @@ describe("addTask Service", () => {
 });
 
 describe("viewTasks Service", () => {
-  test("should return tasks if exists", async () => {
+  test("should return false if not tasks found", async () => {
     mockCollection.get.mockResolvedValueOnce({ empty: true });
     const tasks = await taskService.viewDbTasks();
     expect(tasks).toEqual(false);
@@ -77,7 +77,7 @@ describe("editTasks Service", () => {
     });
     expect(tasks).toEqual(false);
   });
-  test("should return error if invalid id", async () => {
+  test("should return error if task not exist", async () => {
     mockDoc.update.mockResolvedValueOnce(false);
     mockDoc.get.mockResolvedValueOnce(true);
     const tasks = await taskService.editDbTask("2", {
