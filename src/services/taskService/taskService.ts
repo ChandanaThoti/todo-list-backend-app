@@ -9,7 +9,7 @@ export const addDbTask = async (task: Task): Promise<boolean> => {
     return false;
   }
   const docRef = taskCollection.doc();
-  const newTask = {
+  const newTask: Task = {
     id: docRef.id,
     taskName,
     description,
@@ -33,4 +33,16 @@ export const viewDbTasks = async () => {
     tasks.push({ id, taskName, description, status, priority, deadline });
   });
   return tasks;
+};
+
+export const editDbTask = async (id: string, task: Task) => {
+  if (!id) {
+    return false;
+  }
+  const existingTask = await taskCollection.doc(id).get();
+  if (existingTask) {
+    return false;
+  }
+  taskCollection.doc(id).update({ ...task });
+  return true;
 };
