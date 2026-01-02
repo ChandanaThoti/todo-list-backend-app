@@ -51,6 +51,10 @@ export const deleteDbTask = async (id: string) => {
   if (!id) {
     return false;
   }
+  const existingTask = await taskCollection.doc(id).get();
+  if (!existingTask) {
+    return false;
+  }
   taskCollection.doc(id).delete();
   return true;
 };
