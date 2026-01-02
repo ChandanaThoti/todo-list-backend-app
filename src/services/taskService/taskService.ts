@@ -8,7 +8,16 @@ export const addDbTask = async (task: Task): Promise<boolean> => {
   if (!taskName || !description || !status || !priority || !deadline) {
     return false;
   }
-  await taskCollection.doc().set(task);
+  const docRef = taskCollection.doc();
+  const newTask = {
+    id: docRef.id,
+    taskName,
+    description,
+    status,
+    priority,
+    deadline,
+  };
+  await docRef.set(newTask);
   return true;
 };
 
@@ -19,8 +28,9 @@ export const viewDbTasks = async () => {
   }
   const tasks: Task[] = [];
   snapShot.forEach((task) => {
-    const { taskName, description, status, priority, deadline } = task.data();
-    tasks.push({ taskName, description, status, priority, deadline });
+    const { id, taskName, description, status, priority, deadline } =
+      task.data();
+    tasks.push({ id, taskName, description, status, priority, deadline });
   });
   return tasks;
 };
