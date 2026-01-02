@@ -60,6 +60,9 @@ export const deleteTask = async (req: Request, res: Response) => {
       return res.status(400).send("Invalid Id");
     }
     const validTask = await deleteDbTask(id);
+    if (!validTask) {
+      return res.status(404).send("Task not exist");
+    }
     res.status(200).send(validTask);
   } catch {
     res.status(500).send("Internal Server Error");
