@@ -22,10 +22,12 @@ describe("taskService", () => {
     priority: "low",
     deadline: "20/10/2025",
   };
+
   test("return true if task added successfully", async () => {
     const result = await taskService.addDbTask(task);
     expect(result).toEqual(true);
   });
+
   test("return true if task added successfully", async () => {
     const result = await taskService.addDbTask({
       taskName: "",

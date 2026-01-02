@@ -28,6 +28,7 @@ describe("taskController", () => {
     });
     expect(result.text).toBe("Please fill all fields");
   });
+
   test("should return error if server error", async () => {
     jest
       .spyOn(taskService, "addDbTask")
