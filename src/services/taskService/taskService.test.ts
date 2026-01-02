@@ -26,4 +26,14 @@ describe("taskService", () => {
     const result = taskService.addDbTask(task);
     expect(result).toBe(true);
   });
+  test("return true if task added successfully", () => {
+    const result = taskService.addDbTask({
+      taskName: "",
+      description: "test desc",
+      status: "pending",
+      priority: "low",
+      deadline: "20/10/2025",
+    });
+    expect(result).toBe(false);
+  });
 });
