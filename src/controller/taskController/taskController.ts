@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { addDbTask } from "../services/taskService/taskService";
+import { addDbTask } from "../../services/taskService/taskService";
 
 export const addTask = (req: Request, res: Response) => {
   try {
