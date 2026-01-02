@@ -77,4 +77,17 @@ describe("editTasks Service", () => {
     });
     expect(tasks).toEqual(false);
   });
+  test("should return error if invalid id", async () => {
+    mockDoc.update.mockResolvedValueOnce(false);
+    mockDoc.get.mockResolvedValueOnce(true);
+    const tasks = await taskService.editDbTask("2", {
+      id: "4",
+      taskName: "test task",
+      description: "test desc",
+      status: "pending",
+      priority: "low",
+      deadline: "20/10/2025",
+    });
+    expect(tasks).toEqual(false);
+  });
 });

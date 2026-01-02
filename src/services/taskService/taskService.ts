@@ -39,6 +39,10 @@ export const editDbTask = async (id: string, task: Task) => {
   if (!id) {
     return false;
   }
+  const existingTask = await taskCollection.doc(id).get();
+  if (existingTask) {
+    return false;
+  }
   taskCollection.doc(id).update({ ...task });
   return true;
 };
