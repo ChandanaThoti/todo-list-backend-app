@@ -94,14 +94,23 @@ describe("editTasks Service", () => {
 });
 
 describe("deleteTask Service", () => {
+  beforeEach(() => jest.clearAllMocks());
+
   test("should return true if task deleted", async () => {
-    mockDoc.delete.mockResolvedValueOnce("delete response");
+    mockDoc.get.mockResolvedValueOnce(true);
+    mockDoc.delete.mockResolvedValueOnce(true);
     const tasks = await taskService.deleteDbTask("3");
     expect(tasks).toEqual(true);
   });
 
+  test("should return false if task not exist", async () => {
+    mockDoc.delete.mockResolvedValueOnce(false);
+    const tasks = await taskService.deleteDbTask("3");
+    expect(tasks).toEqual(false);
+  });
+
   test("should return error if invalid id", async () => {
-    mockDoc.update.mockResolvedValueOnce("delete response");
+    mockDoc.delete.mockResolvedValueOnce("delete response");
     const tasks = await taskService.deleteDbTask("");
     expect(tasks).toEqual(false);
   });
