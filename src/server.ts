@@ -12,3 +12,5 @@ app.use(taskRoute);
 app.get("/", (req, res) => res.send("Hello worlds"));
 
 app.listen(PORT, () => console.log(`Port is listening at ${PORT}`));
+
+export default app;

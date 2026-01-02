@@ -3,7 +3,7 @@ import app from "../../server";
 import * as taskService from "../../services/taskService/taskService";
 
 describe("taskController", () => {
-  jest.spyOn(taskService, "addDbTask").mockReturnValueOnce(true);
+  jest.spyOn(taskService, "addDbTask").mockResolvedValueOnce(true);
   test("should return true if task added", async () => {
     const result = await request(app).post("/tasks").send({
       taskName: "Finish assignment",
