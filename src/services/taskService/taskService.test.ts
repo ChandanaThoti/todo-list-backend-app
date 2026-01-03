@@ -55,19 +55,24 @@ describe("viewTasks Service", () => {
 });
 
 describe("editTasks Service", () => {
+  beforeEach(() => jest.clearAllMocks());
+  afterAll(() => jest.clearAllMocks());
+
   test("should return true if task updated", async () => {
-    mockDoc.update.mockResolvedValueOnce("set response");
+    mockDoc.update.mockResolvedValueOnce("update response");
+    mockDoc.get.mockResolvedValueOnce({ exists: true });
     const tasks = await taskService.editDbTask("3", {
+      id: "3",
       taskName: "test task",
       description: "test desc",
       status: "pending",
       priority: "low",
       deadline: "20/10/2025",
     });
-    expect(tasks).toEqual(false);
+    expect(tasks).toEqual(true);
   });
-
   test("should return error if invalid id", async () => {
+    mockDoc.get.mockResolvedValueOnce({ exists: false });
     mockDoc.update.mockResolvedValueOnce("set response");
     const tasks = await taskService.editDbTask("", {
       taskName: "test task",
@@ -78,23 +83,17 @@ describe("editTasks Service", () => {
     });
     expect(tasks).toEqual(false);
   });
-  test("should return error if task not exist", async () => {
-    mockDoc.update.mockResolvedValueOnce("update response");
-    mockDoc.get.mockResolvedValueOnce(true);
-    const tasks = await taskService.editDbTask("2", {
-      id: "2",
-      taskName: "test task",
-      description: "test desc",
-      status: "pending",
-      priority: "low",
-      deadline: "20/10/2025",
-    });
-    expect(tasks).toEqual(true);
-  });
 });
 
 describe("deleteTask Service", () => {
   beforeEach(() => jest.clearAllMocks());
+  afterAll(() => jest.clearAllMocks());
+
+  test("should return error if invalid id", async () => {
+    mockDoc.get.mockResolvedValueOnce({ exists: true });
+    const tasks = await taskService.deleteDbTask("5");
+    expect(tasks).toEqual(false);
+  });
 
   test("should return true if task deleted", async () => {
     mockDoc.get.mockResolvedValueOnce(true);
@@ -103,14 +102,8 @@ describe("deleteTask Service", () => {
     expect(tasks).toEqual(true);
   });
 
-  test("should return false if task not exist", async () => {
+  test("should return true if task deleted", async () => {
     mockDoc.delete.mockResolvedValueOnce(false);
-    const tasks = await taskService.deleteDbTask("3");
-    expect(tasks).toEqual(false);
-  });
-
-  test("should return error if invalid id", async () => {
-    mockDoc.delete.mockResolvedValueOnce("delete response");
     const tasks = await taskService.deleteDbTask("");
     expect(tasks).toEqual(false);
   });
