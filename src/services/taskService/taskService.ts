@@ -40,7 +40,7 @@ export const editDbTask = async (id: string, task: Task) => {
     return false;
   }
   const existingTask = await taskCollection.doc(id).get();
-  if (!existingTask) {
+  if (!existingTask.exists) {
     return false;
   }
   taskCollection.doc(id).update({ ...task });
@@ -52,9 +52,9 @@ export const deleteDbTask = async (id: string) => {
     return false;
   }
   const existingTask = await taskCollection.doc(id).get();
-  if (!existingTask) {
+  if (!existingTask.exists) {
     return false;
   }
-  taskCollection.doc(id).delete();
+  await taskCollection.doc(id).delete();
   return true;
 };
