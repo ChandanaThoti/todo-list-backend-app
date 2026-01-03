@@ -80,6 +80,7 @@ describe("viewTasks Controller", () => {
 
 describe("editTask Controller", () => {
   beforeEach(() => jest.clearAllMocks());
+  afterEach(() => jest.clearAllMocks());
 
   test("should return error if task not exist", async () => {
     jest.spyOn(taskService, "editDbTask").mockResolvedValueOnce(false);
@@ -127,5 +128,35 @@ describe("editTask Controller", () => {
 
     const result = await request(app).put("/tasks").send();
     expect(result.text).toBe("Internal Server Error");
+  });
+});
+
+describe("deleteTask Controller", () => {
+  beforeEach(() => jest.clearAllMocks());
+
+  test("should return error if task not exist", async () => {
+    jest.spyOn(taskService, "deleteDbTask").mockResolvedValueOnce(true);
+    const result = await request(app).delete("/tasks").send({ id: "3" });
+    expect(result.text).toEqual("true");
+  });
+
+  test("should return error if task not exist", async () => {
+    jest.spyOn(taskService, "deleteDbTask").mockResolvedValueOnce(false);
+    const result = await request(app).delete("/tasks").send({ id: "" });
+    expect(result.text).toEqual("Invalid Id");
+  });
+
+  test("should return error if task not exist", async () => {
+    jest.spyOn(taskService, "deleteDbTask").mockResolvedValueOnce(false);
+    const result = await request(app).delete("/tasks").send({ id: "fvc" });
+    expect(result.text).toEqual("Task not exist");
+  });
+
+  test("should return error if task not exist", async () => {
+    jest
+      .spyOn(taskService, "deleteDbTask")
+      .mockRejectedValueOnce("Internal Server Error");
+    const result = await request(app).delete("/tasks").send("3");
+    expect(result.text).toEqual("Internal Server Error");
   });
 });
