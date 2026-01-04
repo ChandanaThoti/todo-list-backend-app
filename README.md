@@ -57,7 +57,7 @@ npm install
 
 ## Testing
 
-> Jest and superTest used for testing.
+> Jest and superTest packaged are used for testing.
 
 ```bash
    npm test
