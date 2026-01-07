@@ -28,8 +28,8 @@ export const addTask = async (req: Request, res: Response) => {
 export const viewTasks = async (req: Request, res: Response) => {
   try {
     const tasks = await viewDbTasks();
-    if (!tasks) {
-      return res.status(404).send("No tasks found");
+    if (tasks.length == 0) {
+      return res.status(404).send(tasks);
     }
     res.status(200).json(tasks);
   } catch {

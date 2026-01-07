@@ -24,7 +24,7 @@ export const addDbTask = async (task: Task): Promise<boolean> => {
 export const viewDbTasks = async () => {
   const snapShot = await taskCollection.get();
   if (snapShot.empty) {
-    return false;
+    return [];
   }
   const tasks: Task[] = [];
   snapShot.forEach((task) => {
