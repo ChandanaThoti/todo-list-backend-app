@@ -50,7 +50,7 @@ describe("viewTasks Service", () => {
   test("should return false if not tasks found", async () => {
     mockCollection.get.mockResolvedValueOnce({ empty: true });
     const tasks = await taskService.viewDbTasks();
-    expect(tasks).toEqual(false);
+    expect(tasks).toEqual([]);
   });
 });
 

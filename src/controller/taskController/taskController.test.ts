@@ -62,10 +62,10 @@ describe("viewTasks Controller", () => {
   });
 
   test("should return error if no task found", async () => {
-    jest.spyOn(taskService, "viewDbTasks").mockResolvedValueOnce(false);
+    jest.spyOn(taskService, "viewDbTasks").mockResolvedValueOnce([]);
 
     const result = await request(app).get("/tasks");
-    expect(result.text).toBe("No tasks found");
+    expect(result.text).toBe("[]");
   });
 
   test("should return error if server error", async () => {
