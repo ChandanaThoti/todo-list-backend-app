@@ -29,7 +29,7 @@ export const viewTasks = async (req: Request, res: Response) => {
   try {
     const tasks = await viewDbTasks();
     if (tasks.length == 0) {
-      return res.status(404).send(tasks);
+      return res.status(404).json(tasks);
     }
     res.status(200).json(tasks);
   } catch {
